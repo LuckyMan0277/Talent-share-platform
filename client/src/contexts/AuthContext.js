@@ -44,9 +44,10 @@ export const AuthProvider = ({ children }) => {
         setUser(user);
         return { success: true };
       }
-      throw new Error('Invalid response from server');
+      throw new Error('서버 응답 형식이 올바르지 않습니다');
     } catch (err) {
-      const errorMessage = err.response?.data?.error || '회원가입에 실패했습니다';
+      console.error('Signup error:', err);
+      const errorMessage = err.response?.data?.error || err.message || '회원가입에 실패했습니다';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     }
@@ -62,9 +63,10 @@ export const AuthProvider = ({ children }) => {
         setUser(user);
         return { success: true };
       }
-      throw new Error('Invalid response from server');
+      throw new Error('서버 응답 형식이 올바르지 않습니다');
     } catch (err) {
-      const errorMessage = err.response?.data?.error || '로그인에 실패했습니다';
+      console.error('Login error:', err);
+      const errorMessage = err.response?.data?.error || err.message || '로그인에 실패했습니다';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     }

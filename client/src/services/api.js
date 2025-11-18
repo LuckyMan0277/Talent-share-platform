@@ -29,18 +29,25 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       // Server responded with error
-      const message = error.response.data.error || 'Something went wrong';
+      const message = error.response.data.error || error.response.data.message || 'Something went wrong';
 
       // Handle unauthorized (401) - redirect to login
       if (error.response.status === 401) {
         localStorage.removeItem('token');
-        window.location.href = '/login';
+        // Only redirect if not already on login/signup page
+        if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/signup')) {
+          window.location.href = '/login';
+        }
       }
 
-      return Promise.reject(new Error(message));
+      // Create a proper error object that preserves response data
+      const customError = new Error(message);
+      customError.response = error.response;
+      return Promise.reject(customError);
     } else if (error.request) {
       // Request made but no response
-      return Promise.reject(new Error('No response from server'));
+      const customError = new Error('서버로부터 응답이 없습니다. 네트워크 연결을 확인해주세요.');
+      return Promise.reject(customError);
     } else {
       // Error in request setup
       return Promise.reject(error);
