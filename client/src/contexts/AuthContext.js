@@ -38,10 +38,13 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const response = await api.post('/auth/signup', { name, email, password });
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      setUser(user);
-      return { success: true };
+      const { success, token, user } = response.data;
+      if (success && token && user) {
+        localStorage.setItem('token', token);
+        setUser(user);
+        return { success: true };
+      }
+      throw new Error('Invalid response from server');
     } catch (err) {
       const errorMessage = err.response?.data?.error || '회원가입에 실패했습니다';
       setError(errorMessage);
@@ -53,10 +56,13 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const response = await api.post('/auth/login', { email, password });
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      setUser(user);
-      return { success: true };
+      const { success, token, user } = response.data;
+      if (success && token && user) {
+        localStorage.setItem('token', token);
+        setUser(user);
+        return { success: true };
+      }
+      throw new Error('Invalid response from server');
     } catch (err) {
       const errorMessage = err.response?.data?.error || '로그인에 실패했습니다';
       setError(errorMessage);
