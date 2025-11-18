@@ -20,12 +20,16 @@ const TalentDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [userBookings, setUserBookings] = useState([]);
 
   useEffect(() => {
     loadTalent();
     loadSchedules();
     loadReviews();
-  }, [id]);
+    if (isAuthenticated) {
+      loadUserBookings();
+    }
+  }, [id, isAuthenticated]);
 
   const loadTalent = async () => {
     try {
@@ -60,6 +64,15 @@ const TalentDetailPage = () => {
     }
   };
 
+  const loadUserBookings = async () => {
+    try {
+      const response = await api.get('/bookings');
+      setUserBookings(response.data.data);
+    } catch (err) {
+      console.error('Failed to load user bookings:', err);
+    }
+  };
+
   const handleBooking = async (scheduleId) => {
     if (!isAuthenticated) {
       showInfo('로그인이 필요합니다');
@@ -76,6 +89,7 @@ const TalentDetailPage = () => {
 
       showSuccess('수업 신청이 완료되었습니다!');
       loadSchedules(); // Reload to update participant counts
+      loadUserBookings(); // Reload user bookings to update button states
     } catch (err) {
       const errorMessage = err.response?.data?.error || '신청에 실패했습니다. 다시 시도해주세요.';
       showError(errorMessage);
@@ -186,6 +200,14 @@ const TalentDetailPage = () => {
                     const scheduleDate = new Date(schedule.date);
                     const isPast = scheduleDate < new Date();
 
+                    // Check if user already booked this schedule
+                    const userBooking = userBookings.find(
+                      booking =>
+                        booking.scheduleId?._id === schedule._id &&
+                        booking.status !== 'cancelled'
+                    );
+                    const isBooked = !!userBooking;
+
                     return (
                       <div key={schedule._id} className="schedule-card">
                         <div className="schedule-info">
@@ -208,10 +230,11 @@ const TalentDetailPage = () => {
                         {!isOwner && (
                           <button
                             onClick={() => handleBooking(schedule._id)}
-                            disabled={isFull || isPast || bookingLoading}
-                            className={`btn ${isFull || isPast ? 'btn-secondary' : 'btn-primary'}`}
+                            disabled={isFull || isPast || bookingLoading || isBooked}
+                            className={`btn ${isFull || isPast || isBooked ? 'btn-secondary' : 'btn-primary'}`}
+                            style={isBooked ? { background: '#28a745', cursor: 'not-allowed' } : {}}
                           >
-                            {isPast ? '지난 일정' : isFull ? '마감' : '신청하기'}
+                            {isPast ? '지난 일정' : isFull ? '마감' : isBooked ? '신청 완료 ✓' : '신청하기'}
                           </button>
                         )}
                       </div>
