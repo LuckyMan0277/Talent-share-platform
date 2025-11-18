@@ -90,6 +90,28 @@ const TalentRegisterPage = () => {
     e.preventDefault();
     setError('');
 
+    // Manual validation
+    if (!formData.title.trim()) {
+      showError('재능 제목을 입력해주세요');
+      return;
+    }
+    if (!formData.description.trim()) {
+      showError('상세 설명을 입력해주세요');
+      return;
+    }
+    if (!formData.category) {
+      showError('카테고리를 선택해주세요');
+      return;
+    }
+    if (!formData.isOnline && !formData.location.trim()) {
+      showError('장소를 입력해주세요');
+      return;
+    }
+    if (!formData.contact.trim()) {
+      showError('연락처를 입력해주세요');
+      return;
+    }
+
     // Validate schedules
     const validSchedules = schedules.filter(
       s => s.date && s.startTime && s.endTime
