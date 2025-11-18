@@ -30,12 +30,15 @@ api.interceptors.response.use(
     if (error.response) {
       // Server responded with error
       const message = error.response.data.error || error.response.data.message || 'Something went wrong';
+      const isAuthPage = window.location.pathname.includes('/login') || window.location.pathname.includes('/signup');
 
-      // Handle unauthorized (401) - redirect to login
-      if (error.response.status === 401) {
-        localStorage.removeItem('token');
-        // Only redirect if not already on login/signup page
-        if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/signup')) {
+      // Handle unauthorized (401) - only for authenticated requests
+      if (error.response.status === 401 && !isAuthPage) {
+        // Only remove token and redirect if user was previously authenticated
+        // (not during login/signup attempts)
+        const hadToken = localStorage.getItem('token');
+        if (hadToken) {
+          localStorage.removeItem('token');
           window.location.href = '/login';
         }
       }

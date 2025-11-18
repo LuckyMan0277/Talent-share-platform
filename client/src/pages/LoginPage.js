@@ -17,6 +17,10 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
+    // Clear error when user starts typing
+    if (error) {
+      setError('');
+    }
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
