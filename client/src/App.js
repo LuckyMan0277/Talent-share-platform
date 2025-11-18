@@ -11,6 +11,7 @@ import TalentEditPage from './pages/TalentEditPage';
 import MyPage from './pages/MyPage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import NotificationPage from './pages/NotificationPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 import api from './services/api';
 import './App.css';
 
@@ -133,6 +134,7 @@ function AppContent() {
           <Route path="/my-page" element={<MyPage />} />
           <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/notifications" element={<NotificationPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
         </Routes>
       </main>
 

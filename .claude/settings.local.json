@@ -11,7 +11,18 @@
       "Bash(netstat:*)",
       "Bash(findstr:*)",
       "Bash(taskkill //F //PID 20168)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(taskkill /F /PID 23452)",
+      "Bash(taskkill //F //PID 23452)",
+      "Bash(echo:*)",
+      "Bash(server.js)",
+      "Bash(taskkill //F //PID 25172)",
+      "Bash(timeout /t 2)"
     ],
     "deny": [],
     "ask": []

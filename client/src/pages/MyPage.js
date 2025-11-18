@@ -107,9 +107,14 @@ const MyPage = () => {
               <p>{user?.email}</p>
             </div>
           </div>
-          <Link to="/profile/edit" className="btn btn-primary">
-            프로필 수정
-          </Link>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <Link to="/profile/edit" className="btn btn-primary">
+              프로필 수정
+            </Link>
+            <Link to="/change-password" className="btn btn-secondary">
+              비밀번호 변경
+            </Link>
+          </div>
         </div>
 
         <div className="tabs">
