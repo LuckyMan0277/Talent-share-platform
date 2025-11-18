@@ -14,10 +14,7 @@ const ProfileEditPage = () => {
   const [error, setError] = useState('');
 
   const [formData, setFormData] = useState({
-    name: '',
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
+    name: ''
   });
   const [profileImage, setProfileImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -58,40 +55,11 @@ const ProfileEditPage = () => {
     e.preventDefault();
     setError('');
 
-    // Validate password change if provided
-    if (formData.newPassword || formData.currentPassword) {
-      if (!formData.currentPassword) {
-        const errorMsg = '현재 비밀번호를 입력해주세요';
-        setError(errorMsg);
-        showError(errorMsg);
-        return;
-      }
-
-      if (formData.newPassword !== formData.confirmPassword) {
-        const errorMsg = '새 비밀번호가 일치하지 않습니다';
-        setError(errorMsg);
-        showError(errorMsg);
-        return;
-      }
-
-      if (formData.newPassword.length < 6) {
-        const errorMsg = '새 비밀번호는 최소 6자 이상이어야 합니다';
-        setError(errorMsg);
-        showError(errorMsg);
-        return;
-      }
-    }
-
     setLoading(true);
 
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('name', formData.name);
-
-      if (formData.currentPassword && formData.newPassword) {
-        formDataToSend.append('currentPassword', formData.currentPassword);
-        formDataToSend.append('newPassword', formData.newPassword);
-      }
 
       if (profileImage) {
         formDataToSend.append('profileImage', profileImage);
@@ -104,14 +72,6 @@ const ProfileEditPage = () => {
       });
 
       showSuccess('프로필이 성공적으로 수정되었습니다!');
-
-      // Reset password fields
-      setFormData(prev => ({
-        ...prev,
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-      }));
 
       // Reload user data
       window.location.reload();
@@ -187,47 +147,6 @@ const ProfileEditPage = () => {
               value={user?.email || ''}
               disabled
               style={{ background: '#f0f0f0', cursor: 'not-allowed' }}
-            />
-          </div>
-
-          <hr style={{ margin: '2rem 0', border: 'none', borderTop: '1px solid #e1e8ed' }} />
-
-          <h3 style={{ marginBottom: '1rem' }}>비밀번호 변경 (선택사항)</h3>
-
-          <div className="form-group">
-            <label htmlFor="currentPassword">현재 비밀번호</label>
-            <input
-              type="password"
-              id="currentPassword"
-              name="currentPassword"
-              value={formData.currentPassword}
-              onChange={handleChange}
-              placeholder="현재 비밀번호"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="newPassword">새 비밀번호</label>
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-              placeholder="최소 6자 이상"
-              minLength="6"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="confirmPassword">새 비밀번호 확인</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="새 비밀번호를 다시 입력하세요"
             />
           </div>
 
