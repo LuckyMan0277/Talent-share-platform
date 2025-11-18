@@ -35,7 +35,9 @@ const TalentSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    required: [true, '장소를 입력해주세요'],
+    required: function() {
+      return !this.isOnline;
+    },
     maxlength: [200, '장소는 200자를 초과할 수 없습니다']
   },
   isOnline: {
