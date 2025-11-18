@@ -198,11 +198,9 @@ const TalentListPage = () => {
                     </p>
 
                     <div className="talent-card-footer">
-                      {!talent.isOnline && (
-                        <span className="talent-info">
-                          📍 {talent.location}
-                        </span>
-                      )}
+                      <span className="talent-info">
+                        📍 {talent.isOnline ? '온라인' : talent.location}
+                      </span>
                       <span className="talent-info">
                         👥 최대 {talent.maxParticipants}명
                       </span>
