@@ -1,0 +1,100 @@
+.review-form-container {
+  background: white;
+  border: 1px solid #e1e8ed;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.review-form-container h3 {
+  margin: 0 0 1.5rem 0;
+  color: #14171a;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.rating-section label,
+.comment-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #14171a;
+}
+
+.stars-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.star {
+  font-size: 2rem;
+  color: #e1e8ed;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star.filled {
+  color: #FFD700;
+}
+
+.rating-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #657786;
+  margin-left: 0.5rem;
+}
+
+.comment-section textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.comment-section textarea:focus {
+  outline: none;
+  border-color: #1DA1F2;
+}
+
+.comment-section small {
+  color: #657786;
+  font-size: 0.85rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .review-form-container {
+    padding: 1rem;
+  }
+
+  .star {
+    font-size: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
