@@ -34,7 +34,8 @@ const TalentEditPage = () => {
     category: '',
     location: '',
     isOnline: false,
-    maxParticipants: 1
+    maxParticipants: 1,
+    contact: ''
   });
 
   const [talentImage, setTalentImage] = useState(null);
@@ -67,7 +68,8 @@ const TalentEditPage = () => {
         category: talent.category,
         location: talent.location,
         isOnline: talent.isOnline,
-        maxParticipants: talent.maxParticipants
+        maxParticipants: talent.maxParticipants,
+        contact: talent.contact || ''
       });
 
       if (talent.image) {
@@ -265,6 +267,22 @@ const TalentEditPage = () => {
                 />
               </div>
             )}
+
+            <div className="form-group">
+              <label htmlFor="contact">연락처 *</label>
+              <input
+                type="text"
+                id="contact"
+                name="contact"
+                value={formData.contact}
+                onChange={handleChange}
+                required
+                placeholder="예: 010-1234-5678, 카카오톡ID, 이메일 등"
+              />
+              <small style={{ color: '#657786', display: 'block', marginTop: '0.5rem' }}>
+                수업 신청자에게만 공개됩니다
+              </small>
+            </div>
 
             <div className="form-info">
               * 일정은 상세 페이지에서 개별적으로 추가/삭제할 수 있습니다.

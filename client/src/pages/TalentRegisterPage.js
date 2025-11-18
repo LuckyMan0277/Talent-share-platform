@@ -32,7 +32,8 @@ const TalentRegisterPage = () => {
     category: '',
     location: '',
     isOnline: false,
-    maxParticipants: 1
+    maxParticipants: 1,
+    contact: ''
   });
 
   const [schedules, setSchedules] = useState([
@@ -252,7 +253,7 @@ const TalentRegisterPage = () => {
 
             {/* Participants */}
             <section className="form-section">
-              <h2>참가 인원</h2>
+              <h2>참가 인원 및 연락처</h2>
 
               <div className="form-group">
                 <label htmlFor="maxParticipants">최대 인원 *</label>
@@ -266,6 +267,22 @@ const TalentRegisterPage = () => {
                   min="1"
                   max="50"
                 />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="contact">연락처 *</label>
+                <input
+                  type="text"
+                  id="contact"
+                  name="contact"
+                  value={formData.contact}
+                  onChange={handleChange}
+                  required
+                  placeholder="예: 010-1234-5678, 카카오톡ID, 이메일 등"
+                />
+                <small style={{ color: '#657786', display: 'block', marginTop: '0.5rem' }}>
+                  수업 신청자에게만 공개됩니다
+                </small>
               </div>
             </section>
 

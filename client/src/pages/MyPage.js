@@ -206,6 +206,11 @@ const MyPage = () => {
                           {booking.scheduleId.startTime} - {booking.scheduleId.endTime}
                         </p>
                       )}
+                      {booking.status === 'confirmed' && booking.talentId?.contact && (
+                        <p className="item-info" style={{ color: '#1DA1F2', fontWeight: 'bold' }}>
+                          📞 연락처: {booking.talentId.contact}
+                        </p>
+                      )}
                       <div className="item-footer">
                         <span className="item-date">
                           신청일: {new Date(booking.createdAt).toLocaleDateString('ko-KR')}

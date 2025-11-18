@@ -10,8 +10,9 @@ const createNotification = require('../utils/createNotification');
 // @access  Private
 exports.getMyBookings = asyncHandler(async (req, res, next) => {
   const bookings = await Booking.find({ userId: req.user.id })
-    .populate('talentId', 'title description category location')
+    .populate('talentId', 'title description category location contact')
     .populate('scheduleId')
+    .populate('talentId.userId', 'name email')
     .sort({ createdAt: -1 });
 
   res.status(200).json({
@@ -129,7 +130,7 @@ exports.createBooking = asyncHandler(async (req, res, next) => {
   });
 
   const populatedBooking = await Booking.findById(booking._id)
-    .populate('talentId', 'title description category')
+    .populate('talentId', 'title description category contact')
     .populate('scheduleId');
 
   // Create notification for talent owner
@@ -141,12 +142,27 @@ exports.createBooking = asyncHandler(async (req, res, next) => {
       userId: talent.userId,
       type: 'booking_created',
       title: '새로운 수업 신청',
-      message: `${user.name}님이 "${talent.title}" 수업을 신청했습니다. (일정: ${scheduleDate} ${schedule.startTime})`,
+      message: `${user.name}님이 "${talent.title}" 수업을 신청했습니다. (일정: ${scheduleDate} ${schedule.startTime}) | 신청자 연락처: ${user.email}`,
       relatedTalent: talentId,
       relatedBooking: booking._id
     });
   } catch (err) {
     console.error('Failed to create notification:', err);
+    // Continue even if notification fails
+  }
+
+  // Create notification for booking user with contact info
+  try {
+    await createNotification({
+      userId: req.user.id,
+      type: 'booking_confirmed',
+      title: '수업 신청 완료',
+      message: `"${talent.title}" 수업 신청이 완료되었습니다. (일정: ${scheduleDate} ${schedule.startTime}) | 강사 연락처: ${talent.contact}`,
+      relatedTalent: talentId,
+      relatedBooking: booking._id
+    });
+  } catch (err) {
+    console.error('Failed to create notification for user:', err);
     // Continue even if notification fails
   }
 

@@ -47,6 +47,12 @@ const TalentSchema = new mongoose.Schema({
     required: [true, '최대 인원을 입력해주세요'],
     min: [1, '최소 1명 이상이어야 합니다']
   },
+  contact: {
+    type: String,
+    required: [true, '연락처를 입력해주세요'],
+    trim: true,
+    maxlength: [100, '연락처는 100자를 초과할 수 없습니다']
+  },
   image: {
     type: String,
     default: null
