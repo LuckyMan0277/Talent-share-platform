@@ -51,9 +51,9 @@ const TalentSchema = new mongoose.Schema({
   },
   contact: {
     type: String,
-    required: [true, '연락처를 입력해주세요'],
     trim: true,
-    maxlength: [100, '연락처는 100자를 초과할 수 없습니다']
+    maxlength: [100, '연락처는 100자를 초과할 수 없습니다'],
+    default: ''
   },
   image: {
     type: String,
