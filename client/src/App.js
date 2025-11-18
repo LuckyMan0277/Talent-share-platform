@@ -138,7 +138,7 @@ function AppContent() {
 
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2024 재능기부 매칭 플랫폼. All rights reserved.</p>
+          <p>&copy; 재능기부 매칭 플랫폼. All rights reserved.</p>
         </div>
       </footer>
     </div>
