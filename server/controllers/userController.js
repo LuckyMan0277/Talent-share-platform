@@ -67,7 +67,7 @@ exports.getReceivedBookings = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/users/profile
 // @access  Private
 exports.updateProfile = asyncHandler(async (req, res, next) => {
-  const { name, currentPassword, newPassword } = req.body;
+  const { name } = req.body;
 
   const user = await User.findById(req.user.id);
 
@@ -86,22 +86,6 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
   // Update profile image if uploaded
   if (req.file) {
     user.profileImage = `/uploads/profiles/${req.file.filename}`;
-  }
-
-  // Update password if provided
-  if (currentPassword && newPassword) {
-    // Verify current password
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({
-        success: false,
-        error: '현재 비밀번호가 일치하지 않습니다'
-      });
-    }
-
-    // Hash new password
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
   }
 
   await user.save();
